@@ -100,7 +100,7 @@
                                 <p class="font-medium text-gray-900">{{ $loan->student_id }}</p>
                             </td>
                             <td class="py-3 px-6">
-                                <p class="font-medium text-gray-900">{{ $loan->user->name }}</p>
+                                <p class="font-medium text-gray-900">{{ $loan->borrower->name }}</p>
                             </td>
                             <td class="py-3 px-6 text-gray-600">
                                 {{ $loan->created_at->format('d/m/Y') }}

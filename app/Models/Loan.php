@@ -6,5 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Loan extends Model
 {
-    //
+    protected $fillable = [
+        'student_id',
+        'book_id',
+        'due_date',
+        'loan_status',
+        'return_date',
+        'borrower_id'
+    ];
+
+
+    public function book(){
+        return $this->belongsTo(Book::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'borrower_id');
+    }
 }

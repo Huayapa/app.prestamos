@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('borrower_id')->constrained('users')->onDelete('cascade');
+            $table->string('student_id', 50);
+            $table->foreignId('book_id')->nullable()->constrained('books')->nullOnDelete();
+            $table->date('due_date');
+            $table->date('return_date')->nullable();
+            $table->enum('loan_status', ['Pendiente', 'Devuelto', 'Atrasado', 'Perdido'])->default('Pendiente');
             $table->timestamps();
         });
     }

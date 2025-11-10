@@ -15,8 +15,8 @@
                     <i class="fas fa-book text-blue-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">51</p>
-            <p class="text-xs text-gray-500">34 disponibles</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $totalBooks }}</p>
+            <p class="text-xs text-gray-500">{{ $availableBooks }} disponibles</p>
         </div>
 
         <!-- Préstamos Activos -->
@@ -27,7 +27,7 @@
                     <i class="fas fa-exchange-alt text-green-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">3</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $activeLoans }}</p>
             <p class="text-xs text-gray-500">En circulación</p>
         </div>
 
@@ -39,7 +39,7 @@
                     <i class="fas fa-exclamation-triangle text-red-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">1</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $lateLoans }}</p>
             <p class="text-xs text-gray-500">Requieren atención</p>
         </div>
 
@@ -51,7 +51,7 @@
                     <i class="fas fa-users text-purple-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">4</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $totalUsers }}</p>
             <p class="text-xs text-gray-500">Registrados en el sistema</p>
         </div>
     </div>
@@ -67,52 +67,42 @@
             <div class="p-6">
                 <div class="space-y-4">
                     <!-- Préstamo 1 -->
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900">Introducción a la Programación</p>
-                            <p class="text-sm text-gray-600">Pedro Ramírez</p>
-                            <p class="text-xs text-gray-500 mt-1">Préstamo: 31/10/2025</p>
-                        </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-                            activo
-                        </span>
-                    </div>
+                    @foreach ($loans->take(5) as $loan)
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">{{ $loan->book->title }}</p>
+                                <p class="text-sm text-gray-600">{{ $loan->book->author }}</p>
+                                <p class="text-xs text-gray-500 mt-1">Préstamo: {{ $loan->created_at }}</p>
+                            </div>
+                            @php
+                                $statusClasses;
+                                switch ($loan->loan_status) {
+                                    case 'Pendiente':
+                                        $statusClasses = 'bg-yellow-100 text-yellow-700';
+                                        break;
 
-                    <!-- Préstamo 2 -->
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900">Estructuras de Datos</p>
-                            <p class="text-sm text-gray-600">Lucía Torres</p>
-                            <p class="text-xs text-gray-500 mt-1">Préstamo: 2/11/2025</p>
-                        </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-                            activo
-                        </span>
-                    </div>
+                                    case 'Devuelto':
+                                        $statusClasses = 'bg-green-100 text-green-700';
+                                        break;
 
-                    <!-- Préstamo 3 -->
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900">Cálculo Diferencial</p>
-                            <p class="text-sm text-gray-600">Miguel Ángel</p>
-                            <p class="text-xs text-gray-500 mt-1">Préstamo: 19/10/2025</p>
-                        </div>
-                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">
-                            retrasado
-                        </span>
-                    </div>
+                                    case 'Atrasado':
+                                        $statusClasses = 'bg-orange-100 text-orange-700';
+                                        break;
 
-                    <!-- Préstamo 4 -->
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900">Base de Datos Avanzadas</p>
-                            <p class="text-sm text-gray-600">Carmen Díaz</p>
-                            <p class="text-xs text-gray-500 mt-1">Préstamo: 4/11/2025</p>
+                                    case 'Perdido':
+                                        $statusClasses = 'bg-red-100 text-red-700';
+                                        break;
+
+                                    default:
+                                        # code...
+                                        break;
+                                }
+                            @endphp
+                            <span class="px-2 py-1 rounded text-sm font-medium {{ $statusClasses }}">
+                                {{ $loan->loan_status }}
+                            </span>
                         </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-                            activo
-                        </span>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

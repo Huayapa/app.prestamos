@@ -14,7 +14,35 @@ class LoanController extends Controller
         $books = Book::all();
         $loans = Loan::all();
 
-        return view('loans.index', compact('loans', 'books'));
+        // Total de préstamos
+        $totalLoans = $loans->count();
+
+        // Libros disponibles (stock > 0)
+        $availableBooks = Book::where('stock', '>', 0)->get();
+
+        // Préstamos activos (Pendiente o Atrasado)
+        $activeLoans = Loan::whereIn('loan_status', ['Pendiente', 'Atrasado'])->count();
+
+        // Préstamos retrasados
+        $lateLoans = Loan::where('loan_status', 'Atrasado')->count();
+
+        // Préstamos devueltos
+        $returnedLoans = Loan::where('loan_status', 'Devuelto')->count();
+
+        // Porcentaje de devolución
+        $returnRate = $totalLoans > 0
+            ? round(($returnedLoans / $totalLoans) * 100, 2)
+            : 0;
+
+        return view('loans.index', compact(
+            'books',
+            'loans',
+            'totalLoans',
+            'availableBooks',
+            'activeLoans',
+            'lateLoans',
+            'returnRate'
+        ));
     }
 
     public function store(Request $request)

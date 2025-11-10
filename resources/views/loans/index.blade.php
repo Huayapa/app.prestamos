@@ -22,8 +22,8 @@
                     <i class="fas fa-book text-blue-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">51</p>
-            <p class="text-xs text-gray-500">34 disponibles</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $totalLoans }}</p>
+            <p class="text-xs text-gray-500">préstamos totales</p>
         </div>
 
         <!-- Préstamos Activos -->
@@ -34,7 +34,7 @@
                     <i class="fas fa-exchange-alt text-green-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">3</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $activeLoans }}</p>
             <p class="text-xs text-gray-500">En circulación</p>
         </div>
 
@@ -46,7 +46,7 @@
                     <i class="fas fa-exclamation-triangle text-red-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">1</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $lateLoans }}</p>
             <p class="text-xs text-gray-500">Requieren atención</p>
         </div>
 
@@ -58,7 +58,7 @@
                     <i class="fa-solid fa-check text-green-600 text-sm"></i>
                 </div>
             </div>
-            <p class="text-3xl font-bold text-gray-900 mb-1">98%</p>
+            <p class="text-3xl font-bold text-gray-900 mb-1">{{ $returnRate }}%</p>
             <p class="text-xs text-gray-500">De devoluciones completadas</p>
         </div>
     </div>
@@ -148,11 +148,13 @@
                                             @csrf
                                             @method('PUT')
 
-                                            <x-primary-button>
+                                            <x-primary-button class="w-[210px]">
                                                 <i class="fa-solid fa-check"></i>
                                                 Registrar Devolución
                                             </x-primary-button>
                                         </form>
+                                    @else
+                                        <span class="w-[210px] inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-900 text-center justify-center rounded-lg">Devuelto</span>
                                     @endif
 
                                     <button x-data
@@ -198,7 +200,7 @@
                                 type="text" name="book_id" :value="old('book_id')" required autocomplete="book_id"
                                 x-bind:value="selected?.book_id">
                                 <option>Seleccione un libro</option>
-                                @foreach ($books as $book)
+                                @foreach ($availableBooks as $book)
                                     <option value="{{ $book->id }}">{{ $book->title }}</option>
                                 @endforeach
                             </select>
@@ -267,7 +269,7 @@
                             class="block mt-1 w-full border-gray-300 focus:ring-2 focus:ring-gray-900 focus:border-transparent rounded-md shadow-sm"
                             type="text" name="book_id" :value="old('book_id')" required autocomplete="book_id">
                             <option>Seleccione un libro</option>
-                            @foreach ($books as $book)
+                            @foreach ($availableBooks as $book)
                                 <option value="{{ $book->id }}">{{ $book->title }}</option>
                             @endforeach
                         </select>

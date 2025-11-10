@@ -115,92 +115,30 @@
             </div>
             <div class="p-6">
                 <div class="space-y-4">
-                    <!-- Libro 1 -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
-                            1
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 truncate">Introducción a la Programación</p>
-                            <p class="text-sm text-gray-600 truncate">Juan Pérez</p>
-                        </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="font-semibold text-gray-900">1</p>
-                            <p class="text-xs text-gray-600">préstamos</p>
-                        </div>
-                    </div>
 
-                    <!-- Libro 2 -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
-                            2
+                    @foreach ($popularBooks as $book)
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
+                                {{ $loop->iteration }}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-gray-900 truncate"> {{ $book->title }} </p>
+                                <p class="text-sm text-gray-600 truncate">{{ $book->author }}</p>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                <p class="font-semibold text-gray-900">{{ $book->loans_count }}</p>
+                                <p class="text-xs text-gray-600">préstamos</p>
+                            </div>
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 truncate">Cálculo Diferencial</p>
-                            <p class="text-sm text-gray-600 truncate">María García</p>
-                        </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="font-semibold text-gray-900">1</p>
-                            <p class="text-xs text-gray-600">préstamos</p>
-                        </div>
-                    </div>
-
-                    <!-- Libro 3 -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
-                            3
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 truncate">Estructuras de Datos</p>
-                            <p class="text-sm text-gray-600 truncate">Carlos López</p>
-                        </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="font-semibold text-gray-900">1</p>
-                            <p class="text-xs text-gray-600">préstamos</p>
-                        </div>
-                    </div>
-
-                    <!-- Libro 4 -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
-                            4
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 truncate">Física I</p>
-                            <p class="text-sm text-gray-600 truncate">Ana Martínez</p>
-                        </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="font-semibold text-gray-900">0</p>
-                            <p class="text-xs text-gray-600">préstamos</p>
-                        </div>
-                    </div>
-
-                    <!-- Libro 5 -->
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-semibold flex-shrink-0">
-                            5
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 truncate">Base de Datos Avanzadas</p>
-                            <p class="text-sm text-gray-600 truncate">Roberto Silva</p>
-                        </div>
-                        <div class="text-right flex-shrink-0">
-                            <p class="font-semibold text-gray-900">1</p>
-                            <p class="text-xs text-gray-600">préstamos</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Alert -->
-    <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+    {{-- <div class="bg-red-50 border border-red-200 rounded-lg p-6">
         <div class="flex items-start gap-3">
             <div class="w-6 h-6 bg-red-100 rounded flex items-center justify-center flex-shrink-0">
                 <i class="fas fa-exclamation-triangle text-red-600 text-sm"></i>
@@ -213,5 +151,5 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div> --}}
 </x-app-layout>

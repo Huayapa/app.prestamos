@@ -27,10 +27,16 @@ class DashboardController extends Controller
         $availableBooks = Book::where('stock', '>', 0)->count();
 
         // Préstamos activos (Pendiente o Atrasado)
-        $activeLoans = Loan::whereIn('loan_status', ['Pendiente', 'Atrasado'])->count();
+        $activeLoans = Loan::whereIn('loan_status', ['Pendiente', 'Atrasado', 'Perdido'])->count();
 
         // Préstamos retrasados
         $lateLoans = Loan::where('loan_status', 'Atrasado')->count();
+
+        // Libros más populares
+        $popularBooks = Book::withCount('loans')
+        ->orderBy('loans_count', 'desc')
+        ->take(5) // opcional: limitar a los 5 más prestados
+        ->get();
 
         return view('dashboard', compact(
             'books',
@@ -41,6 +47,7 @@ class DashboardController extends Controller
             'availableBooks',
             'activeLoans',
             'lateLoans',
+            'popularBooks',
         ));
     }
 }

@@ -70,4 +70,17 @@ class BookController extends Controller
             dd($th);
         }
     }
+
+    public function destroy(Book $book)
+    {
+        try {
+            // Eliminar el libro
+            $book->delete();
+
+            // Redirigir con mensaje de éxito
+            return redirect()->route('books.index')->with('success', 'Libro eliminado correctamente.');
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
 }

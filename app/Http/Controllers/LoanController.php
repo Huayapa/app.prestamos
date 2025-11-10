@@ -21,7 +21,7 @@ class LoanController extends Controller
         $availableBooks = Book::where('stock', '>', 0)->get();
 
         // Préstamos activos (Pendiente o Atrasado)
-        $activeLoans = Loan::whereIn('loan_status', ['Pendiente', 'Atrasado'])->count();
+        $activeLoans = Loan::whereIn('loan_status', ['Pendiente', 'Atrasado', 'Perdido'])->count();
 
         // Préstamos retrasados
         $lateLoans = Loan::where('loan_status', 'Atrasado')->count();

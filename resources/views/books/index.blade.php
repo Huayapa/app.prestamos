@@ -13,7 +13,7 @@
     </div>
 
     <!-- Books Card -->
-    <div class="bg-white rounded-lg shadow mb-6" x-data="{selected: null}">
+    <div class="bg-white rounded-lg shadow mb-6" x-data="{ selected: null }">
         <div class="p-6">
             <div class="relative">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -56,8 +56,7 @@
                                         $stockClasses = 'bg-red-100 text-red-700';
                                     }
                                 @endphp
-                                <span
-                                    class="px-2 py-1 rounded text-sm font-medium {{ $stockClasses }}">
+                                <span class="px-2 py-1 rounded text-sm font-medium {{ $stockClasses }}">
                                     {{ $book->stock }}
                                 </span>
                             </td>
@@ -69,11 +68,16 @@
                                         class="p-2 text-gray-600 hover:bg-gray-100 rounded transition">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button x-data
-                                        x-on:click="$dispatch('open-modal', 'edit-book'); selected = @js($book)"
-                                        class="p-2 text-red-600 hover:bg-red-50 rounded transition">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <form method="POST" action="{{ route('books.destroy', $book) }}"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar este libro?');">
+                                        @csrf
+                                        @method('DELETE')
+
+                                            <button type="submit"
+                                                class="p-2 text-red-600 hover:bg-red-50 rounded transition">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -87,7 +91,8 @@
 
         <x-modal name="edit-book">
             <div class="p-6 border-b border-gray-200">
-                <h2 id="modalTitle" class="text-xl font-bold text-gray-900 mb-1">Editar Libro - <span x-text="selected?.title"></span></h2>
+                <h2 id="modalTitle" class="text-xl font-bold text-gray-900 mb-1">Editar Libro - <span
+                        x-text="selected?.title"></span></h2>
                 <p class="text-sm text-gray-600">Complete los detalles del libro. Todos los campos son obligatorios.</p>
             </div>
 
@@ -97,7 +102,7 @@
                 <div class="p-6">
                     <div class="grid grid-cols-2 gap-4">
 
-                        <input type="hidden" name="id" x-bind:value="selected?.id"/>
+                        <input type="hidden" name="id" x-bind:value="selected?.id" />
                         <!-- Título -->
                         <div>
                             <x-input-label for="title" value="Titulo" />
@@ -138,7 +143,8 @@
                         <div>
                             <x-input-label for="publication_year" value="Año de Publicación" />
                             <x-text-input id="publication_year" class="block mt-1 w-full" type="number"
-                                name="publication_year" :value="old('publication_year')" required x-bind:value="selected?.publication_year" autocomplete="publication_year" />
+                                name="publication_year" :value="old('publication_year')" required
+                                x-bind:value="selected?.publication_year" autocomplete="publication_year" />
                             <x-input-error :messages="$errors->get('publication_year')" class="mt-2" />
                         </div>
                     </div>
